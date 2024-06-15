@@ -42,4 +42,3 @@ EOF
 systemctl daemon-reload
 systemctl enable --now semaphore
 
-
