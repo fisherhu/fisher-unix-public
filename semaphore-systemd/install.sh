@@ -20,7 +20,6 @@ if [ ! -f "${DEFCONFIG}" ]
 then
  echo '#Ansible Semaphore Defaults'                 > "${DEFCONFIG}"
  echo "SEMAPHORE_CONFIG=${ETCFILE}"                >> "${DEFCONFIG}"
- echo "SEMAPHORE_LOGS=/var/log/semaphore.log"      >> "${DEFCONFIG}"
 fi
 
 cat > /etc/systemd/system/semaphore.service <<'EOF'
@@ -31,7 +30,7 @@ Description=Ansible Semaphore
 [Service]
 Type=forking
 EnvironmentFile=-/etc/default/ansible-semaphore
-ExecStart=/bin/sh -c "/usr/bin/semaphore server --config ${SEMAPHORE_CONFIG} >> ${SEMAPHORE_LOGS} 2>&1 &"
+ExecStart=/bin/sh -c "/usr/bin/semaphore server --config ${SEMAPHORE_CONFIG}&"
 Restart=always
 RestartSec=10s
 
@@ -42,4 +41,5 @@ EOF
 
 systemctl daemon-reload
 systemctl enable --now semaphore
+
 
